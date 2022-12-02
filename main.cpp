@@ -5,10 +5,16 @@ int main() {
 //---------------------------------------------------------------------------------------------------------
 //Part 1: User input
     //(maybe) ask user top x movie list
-    cout << "Type in how many movies you would like to see: [1-100]" << endl;
+    cout << "Welcome to the Greatest Films of All Time Finder!" << endl;
+    cout << "----------------------------------------------------------" << endl;
+    cout << "Type in how many top movies you would like to see: [1-100]" << endl;
     int x;
     cin >> x;
     //check for bounds validity
+    while(x<=0 || x>100){
+        cout << "Try again, this time with a number between 1 and 100:" << endl;
+        cin >> x;
+    }
 
 //---------------------------------------------------------------------------------------------------------
 //Part 2
@@ -26,7 +32,10 @@ int main() {
     //print out top x based on user input(speaking of, should we ask for this before going through the set
     //or after? i think if we ask at the beginning, it would work better because any possible pause while
     //sifting through the dataset would happen after the prompt rather than before it.
-    for(int i=0; i<x; i++){ //print 1st sort
+
+    cout << "Top " << x << " Best Films" << endl;
+    //print 1st sort
+    for(int i=0; i<x; i++){
         cout << i+1 << ". " << "movieTitle " << "rating" << endl; //print movie title and rating, would be i-1 in vector
     }
     cout << "Time sort 1: " << endl;
@@ -38,7 +47,10 @@ int main() {
     }
     cout << "Time sort 2: " << endl;
 
-
-
     return 0;
 }
+
+
+//sort 1 function:
+
+//sort 2 function:
