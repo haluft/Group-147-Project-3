@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+//sort 1 function header
+//sort 2 function header
+
 int main() {
 //---------------------------------------------------------------------------------------------------------
 //Part 1: User input
@@ -20,6 +23,14 @@ int main() {
 //Part 2
     //read through the dataset and create the movie, avg rating pairs- we could create a movie class so we
     //could overload the comparator operators, which may make sorting easier.
+    //oooh you know if we did that class we could store a "totalRatings" and "numRatings" so that the average
+    //is just totalRatings/numRatings, and this way if there's a rating for a movie in a non-concecutive part
+    //of the dataset, we can still find the average pretty quickly.
+
+    ///important!! read this!!
+    //if you guys think this is fair we could divide this project up like 1 person does part2(finding averages,
+    //making the movie class), 1 person does sort1, and 1 person does sort2. I'm not sure how even that would be
+    //but it might be a good division.
 
 
 //---------------------------------------------------------------------------------------------------------
