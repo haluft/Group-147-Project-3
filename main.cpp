@@ -14,7 +14,7 @@ int main() {
     int x;
     cin >> x;
     //check for bounds validity
-    while(x<=0 || x>100){
+    while(x<0 || x>100){
         cout << "Try again, this time with a number between 1 and 100:" << endl;
         cin >> x;
     }
@@ -47,7 +47,7 @@ int main() {
     cout << "Top " << x << " Best Films" << endl;
     //print 1st sort
     for(int i=0; i<x; i++){
-        cout << i+1 << ". " << "movieTitle " << "rating" << endl; //print movie title and rating, would be i-1 in vector
+        cout << i+1 << ". " << "movieTitle " << "rating" << endl; //print movie title and rating, would be i in vector
     }
     cout << "Time sort 1: " << endl;
     cout << endl;
