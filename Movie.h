@@ -16,6 +16,8 @@ public:
     double getAvgScore() const;
     string getTitle() const;
 
+
+    bool isEqual(const Movie& rhs);
     bool operator==(const Movie& rhs);
     bool operator<(const Movie& rhs);
     bool operator>(const Movie& rhs);

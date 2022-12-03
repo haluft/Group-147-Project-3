@@ -21,6 +21,12 @@ string Movie::getTitle() const {
     return title;
 }
 
+bool Movie::isEqual(const Movie &rhs) {
+    if(this->avgScore == rhs.avgScore){
+        return true;
+    }
+    return false;
+}
 bool Movie::operator==(const Movie &rhs) {
     //two movies are equal if they have the same title... might have to have two equal functions, 1 for title and 1 for ratings
     if(this->title == rhs.title){
