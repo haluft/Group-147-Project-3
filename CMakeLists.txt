@@ -3,4 +3,4 @@ project(Group-147-Project-3)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(test main.cpp Movie.h)
+add_executable(Group-147-Project-3 main.cpp Movie.h Movie.cpp)

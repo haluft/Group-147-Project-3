@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "Movie.h"
 using namespace std;
 
@@ -29,15 +30,20 @@ int main() {
     //of the dataset, we can still find the average pretty quickly.
     Movie test1("Movie", 100.0);
     Movie test2("bad movie", 25.0);
-    /*if(test1>test2){
+    test1.updateScore(37.0);
+    vector<Movie> movies;
+    movies.push_back(test1);
+    movies.push_back(test2);
+
+    if(test1>test2){
         cout << test1.getTitle() << " is better than " << test2.getTitle() << endl;
     }
     else if(test1 < test2){
         cout << test2.getTitle() << " is better than " << test1.getTitle() << endl;
     }
-    else if(test1 == test2){
+    if(test1 == test2){
         cout << test1.getTitle() << " is the same movie as " << test2.getTitle() << endl;
-    }*/
+    }
 
 
     ///important!! read this!!
@@ -60,15 +66,21 @@ int main() {
     cout << "Top " << x << " Best Films" << endl;
     //print 1st sort
     for(int i=0; i<x; i++){
-        cout << i+1 << ". " << "movieTitle " << "rating" << endl; //print movie title and rating, would be i in vector
+        cout << i+1 << ". " << movies.at(i).getTitle() << " " << movies.at(i).getAvgScore() << endl; //print movie title and rating, would be i in vector
+        if(i == movies.size()-1){
+            break;
+        }
     }
     cout << "Time sort 1: " << endl;
     cout << endl;
 
     //print 2nd sort... or since they should be the same, just the second sort's time(?)
-    for(int i=0; i<x; i++){
-        cout << i+1 << ". " << "movieTitle " << "rating" << endl; //print movie title and rating, would be i in vector
-    }
+    /*for(int i=0; i<x; i++){
+        cout << i+1 << ". " << movies.at(i).getTitle() << " " << movies.at(i).getAvgScore() << endl; //print movie title and rating, would be i in vector
+        if(i == movies.size()-1){
+            break;
+        }
+    }*/
     cout << "Time sort 2: " << endl;
 
     return 0;
