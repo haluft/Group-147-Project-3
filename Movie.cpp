@@ -43,27 +43,6 @@ bool Movie::operator>(const Movie &rhs) {
     else if(this->avgScore < rhs.avgScore){
         return false;
     }
-   /* else{
-        //avg ratings are equal, check for alphebetical order.
-        int index=0;
-        while(index != this->title.size() && index != rhs.title.size()){
-            if(this->title[index] < rhs.title[index]){
-                return true;
-            }
-            else if(this->title[index] > rhs.title[index]){
-                return false;
-            }
-            else{
-                index++;
-            }
-        }
-        if(this->title.size() < rhs.title.size()){
-            return true; //this is when one is like "Home" and the other is "Home Alone", "Home" should go first
-        }
-        else{
-            return false;
-        }
-    }*/
 }
 
 bool Movie::operator<(const Movie &rhs) {
@@ -74,25 +53,5 @@ bool Movie::operator<(const Movie &rhs) {
     else if(this->avgScore > rhs.avgScore){
         return false;
     }
-    /*else{
-        //avg ratings are equal, check for alphabetical order. (later in alphabet will be the greater one)
-        int index=0;
-        while(index != this->title.size() && index != rhs.title.size()){
-            if(this->title[index] < rhs.title[index]){
-                return false;
-            }
-            else if(this->title[index] > rhs.title[index]){
-                return true;
-            }
-            else{
-                index++;
-            }
-        }
-        if(this->title.size() < rhs.title.size()){
-            return false; //this is when one is like "Home" and the other is "Home Alone", "Home" should go first(as greater than)
-        }
-        else{
-            return true;
-        }
-    }*/
+
 }

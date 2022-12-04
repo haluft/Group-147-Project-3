@@ -16,8 +16,10 @@ using namespace std;
 void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 
 //sort 1 function header
-void pancakeSort(vector<Movie>& movies);
+
 //sort 2 function header
+void pancakeSort(vector<Movie>& movies);
+
 
 int main() {
 //---------------------------------------------------------------------------------------------------------
@@ -92,8 +94,6 @@ int main() {
     //read through the dataset to create the movie objects and put them in a vector.
     //Note:  this takes a while to run through all 421492 reviews so be patient. To reduce time we could
     //       tell it to stop after it read through 100,000 lines just because that still meets the requirement.
-    //Idea: we take an input of how many lines of the dataset we want to run through. would reduce time when
-    //      we want but can still show that it can handle all 400,000 tuples
     //Testing: there is a test section you can uncomment that is real simple. If you do that, comment out the
     //       section where it reads the dataset so testing can run a lot faster, otherwise you'll be sitting at
     //       your computer waiting for it to go through the entire dataset every time.
@@ -111,7 +111,7 @@ int main() {
 
 
     //open csv
-    /*ifstream dataset;
+    ifstream dataset;
     dataset.open("rottentomatoes-400k.csv");
     if(!dataset.is_open()){
         cout << "It failed to open." << endl;
@@ -126,8 +126,8 @@ int main() {
 
     //close csv
     dataset.close();
-     */
 
+    /*
     //testing functionality. un-comment this and comment the reading the dataset section to test faster
     Movie test1("Movie", 100.0);
     Movie test2("bad movie", 25.0);
@@ -147,13 +147,13 @@ int main() {
     }
     if(test1 == test3){
         cout << test1.getTitle() << " is the same movie as " << test2.getTitle() << endl;
-    }
+    }*/
 
 
 
 //---------------------------------------------------------------------------------------------------------
 //Part 3
-    //clone vector and perform 2 different sorts. time them(gotta figure out how to do that)
+    //clone vector and perform 2 different sorts. time them
 
     auto startSort2 = chrono::high_resolution_clock::now();
     pancakeSort(movies);
@@ -173,7 +173,7 @@ int main() {
     cout << "-------------------------------------------------" << endl;
     //print 1st sort
     for(int i=0; i<x; i++){
-        //need this for test... shouldn't be necessary when considering the full vector is 9366 values
+        //need this for just in case asked for more than in vector
         if(i == movies.size()){
             break;
         }
@@ -193,21 +193,13 @@ int main() {
 
     }
     cout << endl;
-    //cout << "Time to read: " << readDuration.count() << "microseconds" << endl;
+    cout << "Time to read: " << readDuration.count() << " microseconds" << endl;
     cout << "Time for Merge Sort: " << endl;
     cout << endl;
     cout << "Time for Pancake Sort: " << sort2Duration.count() << " microseconds" << endl;
 
-    //print 2nd sort... or since they should be the same, just the second sort's time(?)
-    /*for(int i=0; i<x; i++){
-        cout << i+1 << ". " << movies.at(i).getTitle() << " " << movies.at(i).getAvgScore() << endl; //print movie title and rating, would be i in vector
-        if(i == movies.size()-1){
-            break;
-        }
-    }*/
 
-
-    cout << "Number of movies: " << movies.size() << endl; //gives 9366, which is the correct amount! the reading function works!
+    cout << "Number of movies: " << movies.size() << endl; //gives 9366 for full dataset
 
     return 0;
 }
@@ -251,8 +243,8 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
             }
         }
 
-        //these are the troublesome reviews that have enters in them. I just hardcoded them in I might find a better
-        //way later if i have time
+        //these are the troublesome reviews that have new lines in them. I just hardcoded them in I might find a better
+        //way later if I have time
         getline(dataset, discard);
         if(index==3523 || index==70757 || index == 280972 || index == 291141 || index==300779 || index==323169 || index==354625 || index==396929 || index==402883){
             //these are "Full Reviews", 3523 is "uncut gems", 70757 is "lu over the wall", 280972 is "wreck it ralph", 291141 is "lawless"(291770 real), 300779 is "the hunger games"(301530 real), 323169 is "one day"(324239), 354625 is "best worst movie"(356225), 396929 is "the spirit"(400458 real), 402883 is "amal"(406713)
@@ -260,7 +252,7 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
             getline(dataset, discard);
         }
         if(index==408785 || index==413332){
-            //this one was just weird. 408785 is "the happening"(412866), 413332 is "the duchess of langeais"(417625). they have one new line
+            //408785 is "the happening"(412866), 413332 is "the duchess of langeais"(417625). they have one new line
             getline(dataset, discard);
         }
 
