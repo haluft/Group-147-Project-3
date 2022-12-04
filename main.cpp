@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <iomanip>
 #include "Movie.h"
 using namespace std;
 ///some info:
@@ -36,6 +37,8 @@ int main() {
     //read through the dataset to create the movie objects and put them in a vector.
     //Note:  this takes a while to run through all 421492 reviews so be patient. To reduce time we could
     //       tell it to stop after it read through 100,000 lines just because that still meets the requirement.
+    //Idea: we take an input of how many lines of the dataset we want to run through. would reduce time when
+    //      we want but can still show that it can handle all 400,000 tuples
     //Testing: there is a test section you can uncomment that is real simple. If you do that, comment out the
     //       section where it reads the dataset so testing can run a lot faster, otherwise you'll be sitting at
     //       your computer waiting for it to go through the entire dataset every time.
@@ -48,14 +51,33 @@ int main() {
 
 
     vector<Movie> movies;
+    //reading dataset:
+    //in order to open this on your computer make sure clion knows what directory to find it in on your computer
+
+
+    //open csv
+    ifstream dataset;
+    dataset.open("rottentomatoes-400k.csv");
+    if(!dataset.is_open()){
+        cout << "It failed to open." << endl;
+    }
+
+    //read it
+    readDataset(movies, dataset);
+
+    //close csv
+    dataset.close();
+
     //testing functionality. un-comment this and comment the reading the dataset section to test faster
     /*Movie test1("Movie", 100.0);
     Movie test2("bad movie", 25.0);
     Movie test3("Movie", 78.0);
+    Movie test4("PRECIOUS: BASED ON THE NOVEL \"PUSH\" BY SAPPHIRE", 67.5);
     test1.updateScore(37.0);
     movies.push_back(test1);
     movies.push_back(test2);
     movies.push_back(test3);
+    movies.push_back(test4);
 
     if(test1>test2){
         cout << test1.getTitle() << " is better than " << test2.getTitle() << endl;
@@ -68,22 +90,6 @@ int main() {
     }*/
 
 
-    //reading dataset:
-    //in order to open this on your computer make sure clion knows what directory to find it in on your computer
-
-    //open csv
-    ifstream dataset;
-    dataset.open("rottentomatoes-400k.csv");
-    if(!dataset.is_open()){
-        cout << "It failed to open" << endl;
-    }
-
-    //read it
-    readDataset(movies, dataset);
-
-    //close csv
-    dataset.close();
-
 
 //---------------------------------------------------------------------------------------------------------
 //Part 3
@@ -94,20 +100,37 @@ int main() {
 //Part 4
     //print out top x based on user input(speaking of, should we ask for this before going through the set
     //or after? i think if we ask at the beginning, it would work better because any possible pause while
-    //sifting through the dataset would happen after the prompt rather than before it.
+    //sifting through the dataset would happen after the prompt rather than before it.)
 
-    cout << "Top " << x << " Best Films" << endl;
+    cout << fixed << setprecision(2);
+    cout << "-------------------------------------------------" << endl;
+    cout << "                 Top " << x << " Best Films" << endl;
+    cout << "-------------------------------------------------" << endl;
     //print 1st sort
     for(int i=0; i<x; i++){
+        //need this for test... shouldn't be necessary when considering the full vector is 9366 values
         if(i == movies.size()){
             break;
         }
-        cout << i+1 << ". " << movies.at(i).getTitle() << " " << movies.at(i).getAvgScore() << endl; //print movie title and rating, would be i in vector
-        //need this for test... shouldn't be necessary when considering the full vector will definitely be larger than 100
+        //print movie title and rating
+        string num = to_string(i+1);
+        num+=".";
+        cout << setw(4)<< left << num;
+        if(movies.at(i).getTitle().size() > 35){
+            cout << movies.at(i).getTitle().substr(0,35) << "-" << endl;
+            cout << "    " << setw(40) << left << movies.at(i).getTitle().substr(35);
+        }
+        else{
+            cout << setw(40) << left << movies.at(i).getTitle();
+        }
+        cout << setw(8) << left << movies.at(i).getAvgScore() << endl;
+
 
     }
+    cout << endl;
     cout << "Time sort 1: " << endl;
     cout << endl;
+    cout << "Time sort 2: " << endl;
 
     //print 2nd sort... or since they should be the same, just the second sort's time(?)
     /*for(int i=0; i<x; i++){
@@ -116,7 +139,7 @@ int main() {
             break;
         }
     }*/
-    cout << "Time sort 2: " << endl;
+
 
     cout << "Number of movies: " << movies.size() << endl; //gives 9366, which is the correct amount! the reading function works!
 
