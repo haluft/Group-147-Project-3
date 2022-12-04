@@ -12,7 +12,7 @@ using namespace std;
  *    and see how what we already have works. right now you can see two test movies i created and some comparisons.
  */
 
-void readDataset(vector<Movie>& movies, ifstream& dataset);
+void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 
 //sort 1 function header
 //sort 2 function header
@@ -27,9 +27,30 @@ int main() {
     int x;
     cin >> x;
     //check for bounds validity
-    while(x<0 || x>100){
+    while(x<1 || x>100){
         cout << "Try again, this time with a number between 1 and 100:" << endl;
         cin >> x;
+    }
+
+    //see "Note" and "Idea" in Part 2 for more info on this section
+    //2106 rows=100 movies for the first time, min if you want at least 100 movies.
+    //100th movie is Violet-only 1 review at that point(more later in set)
+    cout << endl;
+    cout << "How many rows should I parse through? [100-400000 or 0 for all]" << endl;
+    int maxIndex;
+    cin >> maxIndex;
+    if(maxIndex == 0){
+        maxIndex= 999999;
+    }
+    else{
+        while(maxIndex<100 || maxIndex>400000){
+            cout << "Try again, this time with a number between 100 and 40000:" << endl;
+            cin >> maxIndex;
+            if(maxIndex == 0){
+                maxIndex= 999999;
+                break;
+            }
+        }
     }
 
 //---------------------------------------------------------------------------------------------------------
@@ -63,7 +84,7 @@ int main() {
     }
 
     //read it
-    readDataset(movies, dataset);
+    readDataset(movies, dataset, maxIndex);
 
     //close csv
     dataset.close();
@@ -146,11 +167,11 @@ int main() {
     return 0;
 }
 
-void readDataset(vector<Movie>& movies, ifstream& dataset){
+void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
     string header;
     getline(dataset, header);
     int index=0;
-    while(!dataset.eof()){ //421492 reviews
+    while(!dataset.eof() && index<maxIndex){ //421492 reviews
         //read line and store the movie's title and rating. check the movie vector for if the movie is already in there
         //if movie already is in there, simply update the rating
 
