@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <iomanip>
+#include <chrono>
 #include "Movie.h"
 using namespace std;
 ///some info:
@@ -16,6 +17,7 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 
 //sort 1 function header
 //sort 2 function header
+void pancakeSort(vector<Movie>& movies);
 
 int main() {
 //---------------------------------------------------------------------------------------------------------
@@ -77,20 +79,25 @@ int main() {
 
 
     //open csv
-    ifstream dataset;
+    /*ifstream dataset;
     dataset.open("rottentomatoes-400k.csv");
     if(!dataset.is_open()){
         cout << "It failed to open." << endl;
     }
 
     //read it
+
+    auto start = chrono::high_resolution_clock::now();
     readDataset(movies, dataset, maxIndex);
+    auto stop = chrono::high_resolution_clock::now();
+    auto readDuration = chrono::duration_cast<chrono::microseconds>(stop-start);
 
     //close csv
     dataset.close();
+     */
 
     //testing functionality. un-comment this and comment the reading the dataset section to test faster
-    /*Movie test1("Movie", 100.0);
+    Movie test1("Movie", 100.0);
     Movie test2("bad movie", 25.0);
     Movie test3("Movie", 78.0);
     Movie test4("PRECIOUS: BASED ON THE NOVEL \"PUSH\" BY SAPPHIRE", 67.5);
@@ -108,13 +115,18 @@ int main() {
     }
     if(test1 == test3){
         cout << test1.getTitle() << " is the same movie as " << test2.getTitle() << endl;
-    }*/
+    }
 
 
 
 //---------------------------------------------------------------------------------------------------------
 //Part 3
     //clone vector and perform 2 different sorts. time them(gotta figure out how to do that)
+
+    auto startSort2 = chrono::high_resolution_clock::now();
+    pancakeSort(movies);
+    auto stopSort2 = chrono::high_resolution_clock::now();
+    auto sort2Duration = chrono::duration_cast<chrono::microseconds>(stopSort2-startSort2);
 
 
 //---------------------------------------------------------------------------------------------------------
@@ -149,9 +161,10 @@ int main() {
 
     }
     cout << endl;
-    cout << "Time sort 1: " << endl;
+    //cout << "Time to read: " << readDuration.count() << "microseconds" << endl;
+    cout << "Time for Merge Sort: " << endl;
     cout << endl;
-    cout << "Time sort 2: " << endl;
+    cout << "Time for Pancake Sort: " << sort2Duration.count() << " microseconds" << endl;
 
     //print 2nd sort... or since they should be the same, just the second sort's time(?)
     /*for(int i=0; i<x; i++){
@@ -251,4 +264,45 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
 
 //sort 1 function:
 
-//sort 2 function:
+//sort 2 functions:
+
+//finds the minimum value of the sub-vector
+int findMin(vector<Movie>& movies, int lastIndex)
+{
+    int min = 0;
+    Movie highestRating("", 100.0);
+    for (int i = 0; i <= lastIndex; i++) {
+        if (movies.at(i).getAvgScore() < highestRating.getAvgScore())
+        {
+            min = i;
+            highestRating = movies.at(i);
+        }
+    }
+    return min;
+}
+
+//moves the smallest value to front
+void pancakeFlip(vector<Movie>& movies, int index)
+{
+    Movie temp("", 0.0);
+    while (index > 0)
+    {
+        temp = movies.at(index-1);
+        movies.at(index-1) = movies.at(index);
+        movies.at(index) = temp;
+        index--;
+    }
+}
+
+//flips the pancake by finding the minimum value, moving it to the front of the "pancake stack" vector, and then flipping the pancake stack by reversing the vector
+void pancakeSort(vector<Movie>& movies)
+{
+    int firstIndex = 0;
+    int lastIndex = movies.size()-1;
+    while (firstIndex < lastIndex) {
+        int min = findMin(movies, lastIndex);
+        pancakeFlip(movies, min);
+        reverse(movies.begin(), movies.begin()+lastIndex+1);
+        lastIndex--;
+    }
+}
