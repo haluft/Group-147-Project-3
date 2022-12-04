@@ -108,7 +108,7 @@ int main() {
     vector<Movie> movies;
     //reading dataset:
     //in order to open this on your computer make sure clion knows what directory to find it in on your computer
-
+    //!!!if you comment out this section, you also have to comment out the line at the bottom that prints the time for this
 
     //open csv
     ifstream dataset;
@@ -118,7 +118,6 @@ int main() {
     }
 
     //read it
-
     auto start = chrono::high_resolution_clock::now();
     readDataset(movies, dataset, maxIndex);
     auto stop = chrono::high_resolution_clock::now();
