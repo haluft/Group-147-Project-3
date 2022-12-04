@@ -16,41 +16,73 @@ using namespace std;
 void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 
 //sort 1 function header
-//sort 2 function header
 void pancakeSort(vector<Movie>& movies);
+//sort 2 function header
 
 int main() {
 //---------------------------------------------------------------------------------------------------------
 //Part 1: User input
-    //(maybe) ask user top x movie list
+    //ask user top x movie list
+    //to access super secret developer controls, use this password after typing in 147 when asked for how
+    //many movies to see
+    string password = "deservesAnA";
+    int maxIndex;
+    bool developerControls=false;
+
     cout << "Welcome to the Greatest Films of All Time Finder!" << endl;
     cout << "----------------------------------------------------------" << endl;
-    cout << "Type in how many top movies you would like to see: [1-100]" << endl;
+    cout << "Type in how many top movies you would like to see:" << endl;
+    cout << "[1-100]" << endl;
     int x;
     cin >> x;
-    //check for bounds validity
-    while(x<1 || x>100){
-        cout << "Try again, this time with a number between 1 and 100:" << endl;
-        cin >> x;
+
+    //check input for bounds and for secret developer access
+    string inPass;
+    bool correct=true;
+    if(x == 147){
+        cin >> inPass;
+        if(inPass == password){
+            developerControls = true;
+            cout << "Developer Mode Activated" << endl;
+            cout << "Welcome, Group 147" << endl;
+        }
+        else{
+            correct = false;
+        }
+    }
+    if(x != 147 || !correct){
+        //check if within bounds
+        while(x<1 || x>100){
+            cout << "Try again, this time with a number between 1 and 100:" << endl;
+            cin >> x;
+        }
+        maxIndex = 999999;
     }
 
-    //see "Note" and "Idea" in Part 2 for more info on this section
-    //2106 rows=100 movies for the first time, min if you want at least 100 movies.
-    //100th movie is Violet-only 1 review at that point(more later in set)
-    cout << endl;
-    cout << "How many rows should I parse through? [100-400000 or 0 for all]" << endl;
-    int maxIndex;
-    cin >> maxIndex;
-    if(maxIndex == 0){
-        maxIndex= 999999;
-    }
-    else{
-        while(maxIndex<100 || maxIndex>400000){
-            cout << "Try again, this time with a number between 100 and 40000:" << endl;
-            cin >> maxIndex;
-            if(maxIndex == 0){
-                maxIndex= 999999;
-                break;
+    /* if you typed in 147, then the password "deservesAnA", you now have access to developer controls
+     * which give you more control over how many movies to display and how many rows to read.
+     * 2106 rows=100 movies for the first time, min if you want at least 100 movies.
+     * 100th movie is Violet-only 1 review at that point(more later in set)
+     */
+    if(developerControls) {
+        cout << endl;
+        cout << "How many top movies would you like to see?" << endl;
+        cout << "[1-9366]" << endl;
+        cin >> x;
+        cout << "How many rows should I parse through?" << endl;
+        cout << "[100-400000 or 0 for all]" << endl;
+        cin >> maxIndex;
+        if (maxIndex == 0) {
+            maxIndex = 999999;
+        }
+        else {
+            while (maxIndex < 100 || maxIndex > 400000) {
+                cout << "Try again, this time with a number between 100 and 40000:" << endl;
+                cin >> maxIndex;
+                if (maxIndex == 0) {
+                    maxIndex = 999999;
+                    break;
+                }
             }
         }
     }
@@ -265,7 +297,6 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
 //sort 1 function:
 
 //sort 2 functions:
-
 //finds the minimum value of the sub-vector
 int findMin(vector<Movie>& movies, int lastIndex)
 {
