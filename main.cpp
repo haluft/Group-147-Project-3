@@ -154,10 +154,18 @@ int main() {
 //Part 3
     //clone vector and perform 2 different sorts. time them
 
+    vector<Movie> moviescopy = movies;
+
     auto startSort2 = chrono::high_resolution_clock::now();
     pancakeSort(movies);
     auto stopSort2 = chrono::high_resolution_clock::now();
     auto sort2Duration = chrono::duration_cast<chrono::microseconds>(stopSort2-startSort2);
+
+    auto startSort3 = chrono::high_resolution_clock::now();
+    buildHeap(moviescopy, movies.size());
+    heapSort(moviescopy, movies.size());
+    auto stopSort3 = chrono::high_resolution_clock::now();
+    auto sort3Duration = chrono::duration_cast<chrono::microseconds>(stopSort3-startSort3);
 
 
 //---------------------------------------------------------------------------------------------------------
@@ -195,14 +203,45 @@ int main() {
             cout << setw(40) << left << movies.at(i).getTitle();
         }
         cout << setw(8) << left << movies.at(i).getAvgScore() << endl;
+    }
+
+    //TEMPORARY PRINTING TO CHECK HEAPSORT
+    cout << fixed << setprecision(2);
+    cout << "-------------------------------------------------" << endl;
+    cout << "                 Top " << x << " Best Films" << endl;
+    cout << "-------------------------------------------------" << endl;
+    //print 1st sort
+    for(int i=0; i<x; i++){
+        //need this for test... shouldn't be necessary when considering the full vector is 9366 values
+        if(i == moviescopy.size()){
+            break;
+        }
+        //print movie title and rating
+        string num = to_string(i+1);
+        num+=".";
+        cout << setw(4)<< left << num;
+        if(moviescopy.at(i).getTitle().size() > 35){
+            cout << moviescopy.at(i).getTitle().substr(0,35) << "-" << endl;
+            cout << "    " << setw(40) << left << moviescopy.at(i).getTitle().substr(35);
+        }
+        else{
+            cout << setw(40) << left << moviescopy.at(i).getTitle();
+        }
+        cout << setw(8) << left << moviescopy.at(i).getAvgScore() << endl;
 
 
     }
     cout << endl;
+
+    cout << endl;
     cout << "Time to read: " << readDuration.count() << " microseconds" << endl;
+    cout << endl;
     cout << "Time for Merge Sort: " << endl;
     cout << endl;
     cout << "Time for Pancake Sort: " << sort2Duration.count() << " microseconds" << endl;
+    cout << endl;
+    cout << "Time for Heap Sort: " << sort3Duration.count() << " microseconds" << endl;
+    cout << endl;
 
 
     cout << "Number of movies: " << movies.size() << endl; //gives 9366 for full dataset
@@ -333,5 +372,54 @@ void pancakeSort(vector<Movie>& movies)
         pancakeFlip(movies, min);
         reverse(movies.begin(), movies.begin()+lastIndex+1);
         lastIndex--;
+    }
+}
+
+//sort 3 Functions:
+
+void heapify(vector<Movie>& movies, int size, int i)
+{
+    int min = i;
+    int l = (2 * i) + 1;
+    int r = (2 * i) + 2;
+
+    if (l < size && movies.at(l).getAvgScore() < movies.at(min).getAvgScore())
+    {
+        min = l;
+    }
+
+    if (r < size && movies.at(r).getAvgScore() < movies.at(min).getAvgScore())
+    {
+        min = r;
+    }
+
+    if (min != i)
+    {
+        swap(movies.at(i), movies.at(min));
+        heapify(movies, size, min);
+    }
+}
+
+//builds the heap in-place
+void buildHeap(vector<Movie>& movies, int size)
+{
+    int startIndex = (size/2) - 1;
+    for (int i = startIndex; i >= 0; i--)
+    {
+        heapify(movies, size, i);
+    }
+}
+
+//actual sort function once the heap is built
+void heapSort(vector<Movie>& movies, int size)
+{
+    for (int i = (size / 2) - 1; i >= 0; i--)
+    {
+        heapify(movies, size, i);
+    }
+    for (int i = (size - 1); i >= 0; i--)
+    {
+        swap(movies.at(0), movies.at(i));
+        heapify(movies, i, 0);
     }
 }
