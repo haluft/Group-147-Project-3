@@ -58,7 +58,7 @@ int main() {
             cout << "Try again, this time with a number between 1 and 100:" << endl;
             cin >> x;
         }
-        maxIndex = 999999;
+        maxIndex = 100000;
     }
 
     /* if you typed in 147, then the password "deservesAnA", you now have access to developer controls
@@ -182,7 +182,14 @@ int main() {
         cout << setw(4)<< left << num;
         if(movies.at(i).getTitle().size() > 35){
             cout << movies.at(i).getTitle().substr(0,35) << "-" << endl;
-            cout << "    " << setw(40) << left << movies.at(i).getTitle().substr(35);
+            string second = movies.at(i).getTitle().substr(35);
+            if(second.size() > 35){
+                cout << "    " << second.substr(0,35) << "-" << endl;
+                cout << "    " << setw(40) << left << second.substr(35);
+            }
+            else{
+                cout << "    " << setw(40) << left << movies.at(i).getTitle().substr(35);
+            }
         }
         else{
             cout << setw(40) << left << movies.at(i).getTitle();
