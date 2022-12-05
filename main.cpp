@@ -20,6 +20,11 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 //sort 2 function header
 void pancakeSort(vector<Movie>& movies);
 
+//sort 3 function headers
+void buildHeap(vector<Movie>& movies, int size);
+void heapSort(vector<Movie>& movies, int size);
+
+
 
 int main() {
 //---------------------------------------------------------------------------------------------------------
@@ -205,6 +210,7 @@ int main() {
         cout << setw(8) << left << movies.at(i).getAvgScore() << endl;
     }
 
+    /*
     //TEMPORARY PRINTING TO CHECK HEAPSORT
     cout << fixed << setprecision(2);
     cout << "-------------------------------------------------" << endl;
@@ -231,18 +237,15 @@ int main() {
 
 
     }
-    cout << endl;
+    cout << endl;*/
 
     cout << endl;
     cout << "Time to read: " << readDuration.count() << " microseconds" << endl;
     cout << endl;
     cout << "Time for Merge Sort: " << endl;
-    cout << endl;
     cout << "Time for Pancake Sort: " << sort2Duration.count() << " microseconds" << endl;
-    cout << endl;
     cout << "Time for Heap Sort: " << sort3Duration.count() << " microseconds" << endl;
     cout << endl;
-
 
     cout << "Number of movies: " << movies.size() << endl; //gives 9366 for full dataset
 
