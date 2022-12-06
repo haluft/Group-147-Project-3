@@ -5,14 +5,6 @@
 #include <chrono>
 #include "Movie.h"
 using namespace std;
-///some info:
-/* 1. so for some reason if we add any more files/classes, we have to update the Cmakefile manually.
- * 2. pls read all the comments sometimes i ask questions about how y'all would prefer to implement smth so getting
- *    feedback would be great. you guys can do the same thing i'll read any new comments/changes
- * 3. run the code on your computer! i usually only ever commit code that runs and its a good way to test as we go
- *    and see how what we already have works. right now you can see two test movies i created and some comparisons.
- */
-
 /*
  * Pancake Sort Citation: https://www.geeksforgeeks.org/sorting-algorithms/, https://www.geeksforgeeks.org/pancake-sorting/
  * Heap Sort and Merge Sort Citation: Module 5 lecture slides and Stepik solutions (Module6_Solution PDF)
@@ -103,9 +95,6 @@ int main() {
     //read through the dataset to create the movie objects and put them in a vector.
     //Note:  this takes a while to run through all 421492 reviews so be patient. To reduce time use developer
     //       mode
-    //Testing: there is a test section you can uncomment that is real simple. If you do that, comment out the
-    //       section where it reads the dataset so testing can run a lot faster, otherwise you'll be sitting at
-    //       your computer waiting for it to go through the entire dataset every time.
 
     vector<Movie> movies;
     //reading dataset:
@@ -127,30 +116,6 @@ int main() {
 
     //close csv
     dataset.close();
-
-    /*
-    //testing functionality. un-comment this and comment the reading the dataset section to test faster
-    Movie test1("Movie", 100.0);
-    Movie test2("bad movie", 25.0);
-    Movie test3("Movie", 78.0);
-    Movie test4("PRECIOUS: BASED ON THE NOVEL \"PUSH\" BY SAPPHIRE", 67.5);
-    test1.updateScore(37.0);
-    movies.push_back(test1);
-    movies.push_back(test2);
-    movies.push_back(test3);
-    movies.push_back(test4);
-
-    if(test1>test2){
-        cout << test1.getTitle() << " is better than " << test2.getTitle() << endl;
-    }
-    else if(test1 < test2){
-        cout << test2.getTitle() << " is better than " << test1.getTitle() << endl;
-    }
-    if(test1 == test3){
-        cout << test1.getTitle() << " is the same movie as " << test2.getTitle() << endl;
-    }*/
-
-
 
 //---------------------------------------------------------------------------------------------------------
 //Part 3
@@ -213,35 +178,6 @@ int main() {
         }
         cout << setw(8) << left << movies.at(i).getAvgScore() << endl;
     }
-
-    /*
-    //TEMPORARY PRINTING TO CHECK HEAPSORT
-    cout << fixed << setprecision(2);
-    cout << "-------------------------------------------------" << endl;
-    cout << "                 Top " << x << " Best Films" << endl;
-    cout << "-------------------------------------------------" << endl;
-    //print 1st sort
-    for(int i=0; i<x; i++){
-        //need this for test... shouldn't be necessary when considering the full vector is 9366 values
-        if(i == moviescopy.size()){
-            break;
-        }
-        //print movie title and rating
-        string num = to_string(i+1);
-        num+=".";
-        cout << setw(4)<< left << num;
-        if(moviescopy.at(i).getTitle().size() > 35){
-            cout << moviescopy.at(i).getTitle().substr(0,35) << "-" << endl;
-            cout << "    " << setw(40) << left << moviescopy.at(i).getTitle().substr(35);
-        }
-        else{
-            cout << setw(40) << left << moviescopy.at(i).getTitle();
-        }
-        cout << setw(8) << left << moviescopy.at(i).getAvgScore() << endl;
-
-
-    }
-    cout << endl;*/
 
     cout << endl;
     double readInSec= (double)readDuration.count() / 1000000;
@@ -341,7 +277,7 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
 
 //sort 1 function:
 // Algorithm inspired by Pseudocode provided in Module 6 Lecture
-//merge algorithm:
+// merge algorithm:
 // Helper for mergeSort
 void merge(vector<Movie>& movies, int startIndex, int middleIndex, int endIndex){
     int firstSequence = middleIndex - startIndex + 1; // Size of first sequence
@@ -447,7 +383,6 @@ void pancakeSort(vector<Movie>& movies)
 
 //sort 3 Functions:
 //implements heap data structure in order to test merge sort against the other two sorts
-
 void heapify(vector<Movie>& movies, int size, int i)
 {
     int min = i;
