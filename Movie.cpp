@@ -13,7 +13,7 @@ void Movie::updateScore(double score) {
     avgScore = totalScores/numReviews;
 }
 
-double Movie::getAvgScore() const{ //this should be const but i forget correct place to put it
+double Movie::getAvgScore() const{
     return avgScore;
 }
 

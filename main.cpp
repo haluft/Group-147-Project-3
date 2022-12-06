@@ -25,10 +25,8 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 //sort 2 function header
 void pancakeSort(vector<Movie>& movies);
 
-//sort 3 function headers
-void buildHeap(vector<Movie>& movies, int size);
+//sort 3 function header
 void heapSort(vector<Movie>& movies, int size);
-
 
 
 int main() {
@@ -102,18 +100,11 @@ int main() {
 //---------------------------------------------------------------------------------------------------------
 //Part 2
     //read through the dataset to create the movie objects and put them in a vector.
-    //Note:  this takes a while to run through all 421492 reviews so be patient. To reduce time we could
-    //       tell it to stop after it read through 100,000 lines just because that still meets the requirement.
+    //Note:  this takes a while to run through all 421492 reviews so be patient. To reduce time use developer
+    //       mode
     //Testing: there is a test section you can uncomment that is real simple. If you do that, comment out the
     //       section where it reads the dataset so testing can run a lot faster, otherwise you'll be sitting at
     //       your computer waiting for it to go through the entire dataset every time.
-
-
-    ///important!! read this!!
-    //if you guys think this is fair we could divide this project up like 1 person does part2(finding averages,
-    //making the movie class), 1 person does sort1, and 1 person does sort2. I'm not sure how even that would be
-    //but it might be a good division.
-
 
     vector<Movie> movies;
     //reading dataset:
@@ -179,15 +170,11 @@ int main() {
 
 //---------------------------------------------------------------------------------------------------------
 //Part 4
-    //print out top x based on user input(speaking of, should we ask for this before going through the set
-    //or after? i think if we ask at the beginning, it would work better because any possible pause while
-    //sifting through the dataset would happen after the prompt rather than before it.)
-
+    //print out top x based on user input
     cout << fixed << setprecision(2);
     cout << "-------------------------------------------------" << endl;
     cout << "                 Top " << x << " Best Films" << endl;
     cout << "-------------------------------------------------" << endl;
-    //print 1st sort
     for(int i=0; i<x; i++){
         //need this for just in case asked for more than in vector
         if(i == movies.size()){
@@ -295,8 +282,7 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
             }
         }
 
-        //these are the troublesome reviews that have new lines in them. I just hardcoded them in I might find a better
-        //way later if I have time
+        //these are the troublesome reviews that have new lines in them. I just hardcoded them in.
         getline(dataset, discard);
         if(index==3523 || index==70757 || index == 280972 || index == 291141 || index==300779 || index==323169 || index==354625 || index==396929 || index==402883){
             //these are "Full Reviews", 3523 is "uncut gems", 70757 is "lu over the wall", 280972 is "wreck it ralph", 291141 is "lawless"(291770 real), 300779 is "the hunger games"(301530 real), 323169 is "one day"(324239), 354625 is "best worst movie"(356225), 396929 is "the spirit"(400458 real), 402883 is "amal"(406713)
@@ -328,20 +314,19 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
         }
 
         if(index==417010){
-            //(real index=421492). looks like theres an empty line at the bottom of the dataset, so it doesn't realize it reached the end
+            //(real index=421492). looks like there's an empty line at the bottom of the dataset, so it doesn't realize it reached the end
             break;
         }
         index++;
     }
-    //don't ask me why the index doesn't line up with the real index, I have no idea. It does add every movie,
-    //as confirmed by checking the vector size(9366, which is the number of unique movies in the dataset), so
-    //I don't know why it's different
+    //The last index does not correspond to the index it says because there are actually ~416000 unique reviews, but
+    //about 421000 lines. It does add every movie,as confirmed by checking the vector size(9366, which is the number
+    //of unique movies in the dataset), and that's what's important.
 }
 
 //sort 1 function:
 
 //sort 2 functions:
-
 //finds the minimum value of the sub-vector
 int findMin(vector<Movie>& movies, int lastIndex)
 {
