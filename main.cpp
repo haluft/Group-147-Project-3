@@ -172,8 +172,15 @@ int main() {
 //Part 4
     //print out top x based on user input
     cout << fixed << setprecision(2);
+
     cout << "-------------------------------------------------" << endl;
-    cout << "                 Top " << x << " Best Films" << endl;
+    if(x > movies.size()){
+        cout << "                 Top " << movies.size() << " Best Films" << endl;
+    }
+    else{
+        cout << "                 Top " << x << " Best Films" << endl;
+    }
+
     cout << "-------------------------------------------------" << endl;
     for(int i=0; i<x; i++){
         //need this for just in case asked for more than in vector
