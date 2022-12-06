@@ -231,7 +231,9 @@ int main() {
     cout << endl;*/
 
     cout << endl;
-    cout << "Time to read: " << readDuration.count() << " microseconds" << endl;
+    double readInSec= (double)readDuration.count() / 1000000;
+    cout << fixed << setprecision(3);
+    cout << "Time to read: " << readInSec << " seconds" << endl;
     cout << endl;
     cout << "Time for Merge Sort: " << endl;
     cout << "Time for Pancake Sort: " << sort2Duration.count() << " microseconds" << endl;
