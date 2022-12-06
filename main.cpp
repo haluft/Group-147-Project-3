@@ -13,6 +13,11 @@ using namespace std;
  *    and see how what we already have works. right now you can see two test movies i created and some comparisons.
  */
 
+/*
+ * Pancake Sort Citation: https://www.geeksforgeeks.org/sorting-algorithms/, https://www.geeksforgeeks.org/pancake-sorting/
+ * Heap Sort Citation: Module 5 lecture slides and Stepik solutions (Module6_Solution PDF)
+ */
+
 void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 
 //sort 1 function header
@@ -167,7 +172,6 @@ int main() {
     auto sort2Duration = chrono::duration_cast<chrono::microseconds>(stopSort2-startSort2);
 
     auto startSort3 = chrono::high_resolution_clock::now();
-    buildHeap(moviescopy, movies.size());
     heapSort(moviescopy, movies.size());
     auto stopSort3 = chrono::high_resolution_clock::now();
     auto sort3Duration = chrono::duration_cast<chrono::microseconds>(stopSort3-startSort3);
@@ -337,6 +341,7 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
 //sort 1 function:
 
 //sort 2 functions:
+
 //finds the minimum value of the sub-vector
 int findMin(vector<Movie>& movies, int lastIndex)
 {
@@ -372,6 +377,8 @@ void pancakeSort(vector<Movie>& movies)
     int lastIndex = movies.size()-1;
     while (firstIndex < lastIndex) {
         int min = findMin(movies, lastIndex);
+
+        //pancakeFlip and reverse() together count as the "flip of the pancake stack"
         pancakeFlip(movies, min);
         reverse(movies.begin(), movies.begin()+lastIndex+1);
         lastIndex--;
@@ -379,6 +386,7 @@ void pancakeSort(vector<Movie>& movies)
 }
 
 //sort 3 Functions:
+//implements heap data structure in order to test merge sort against the other two sorts
 
 void heapify(vector<Movie>& movies, int size, int i)
 {
@@ -403,23 +411,19 @@ void heapify(vector<Movie>& movies, int size, int i)
     }
 }
 
-//builds the heap in-place
+//builds the heap in-place using the movies vector and the heapify function
 void buildHeap(vector<Movie>& movies, int size)
 {
-    int startIndex = (size/2) - 1;
-    for (int i = startIndex; i >= 0; i--)
+    for (int i = (size/2)-1; i >= 0; i--)
     {
         heapify(movies, size, i);
     }
 }
 
-//actual sort function once the heap is built
+//actual sort function that builds the heap and then sorts the vector into descending order
 void heapSort(vector<Movie>& movies, int size)
 {
-    for (int i = (size / 2) - 1; i >= 0; i--)
-    {
-        heapify(movies, size, i);
-    }
+    buildHeap(movies, size);
     for (int i = (size - 1); i >= 0; i--)
     {
         swap(movies.at(0), movies.at(i));
