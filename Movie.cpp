@@ -53,5 +53,26 @@ bool Movie::operator<(const Movie &rhs) {
     else if(this->avgScore > rhs.avgScore){
         return false;
     }
+}
 
+// For merge sort:
+
+bool Movie::operator<=(const Movie &rhs){
+    // a movie is less or equal than another if it has a lower or equal rating.
+    if(this->avgScore < rhs.avgScore || this->avgScore == rhs.avgScore){
+        return true;
+    }
+    else if(this->avgScore > rhs.avgScore){
+        return false;
+    }
+}
+
+bool Movie::operator>=(const Movie &rhs) {
+    //a movie is greater or equal than another if it has a higher or equal rating.
+    if(this->avgScore > rhs.avgScore || this->avgScore == rhs.avgScore){
+        return true;
+    }
+    else if(this->avgScore < rhs.avgScore){
+        return false;
+    }
 }

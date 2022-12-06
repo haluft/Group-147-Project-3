@@ -22,7 +22,9 @@ public:
     bool operator<(const Movie& rhs);
     bool operator>(const Movie& rhs);
 
-
+    // For merge sort:
+    bool operator<=(const Movie &rhs);
+    bool operator>=(const Movie &rhs);
 };
 
 

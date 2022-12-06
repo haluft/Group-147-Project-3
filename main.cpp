@@ -15,12 +15,13 @@ using namespace std;
 
 /*
  * Pancake Sort Citation: https://www.geeksforgeeks.org/sorting-algorithms/, https://www.geeksforgeeks.org/pancake-sorting/
- * Heap Sort Citation: Module 5 lecture slides and Stepik solutions (Module6_Solution PDF)
+ * Heap Sort and Merge Sort Citation: Module 5 lecture slides and Stepik solutions (Module6_Solution PDF)
  */
 
 void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex);
 
 //sort 1 function header
+void mergeSort(vector<Movie>& movies, int startIndex, int endIndex);
 
 //sort 2 function header
 void pancakeSort(vector<Movie>& movies);
@@ -154,8 +155,13 @@ int main() {
 //---------------------------------------------------------------------------------------------------------
 //Part 3
     //clone vector and perform 2 different sorts. time them
-
+    vector<Movie> movieCopyMerge = movies;
     vector<Movie> moviescopy = movies;
+
+    auto startSort1 = chrono::high_resolution_clock::now();
+    mergeSort(movieCopyMerge, 0, movieCopyMerge.size() - 1);
+    auto stopSort1 = chrono::high_resolution_clock::now();
+    auto sort1Duration = chrono::duration_cast<chrono::microseconds>(stopSort1 - startSort1);
 
     auto startSort2 = chrono::high_resolution_clock::now();
     pancakeSort(movies);
@@ -242,7 +248,7 @@ int main() {
     cout << fixed << setprecision(3);
     cout << "Time to read: " << readInSec << " seconds" << endl;
     cout << endl;
-    cout << "Time for Merge Sort: " << endl;
+    cout << "Time for Merge Sort: " << sort1Duration.count() << " microseconds" << endl;
     cout << "Time for Pancake Sort: " << sort2Duration.count() << " microseconds" << endl;
     cout << "Time for Heap Sort: " << sort3Duration.count() << " microseconds" << endl;
     cout << endl;
@@ -334,6 +340,66 @@ void readDataset(vector<Movie>& movies, ifstream& dataset, int maxIndex){
 }
 
 //sort 1 function:
+// Algorithm inspired by Pseudocode provided in Module 6 Lecture
+//merge algorithm:
+// Helper for mergeSort
+void merge(vector<Movie>& movies, int startIndex, int middleIndex, int endIndex){
+    int firstSequence = middleIndex - startIndex + 1; // Size of first sequence
+    int secondSequence = endIndex - middleIndex; // Size of second sequence
+
+    vector<Movie> firstSequenceCollection;
+    vector<Movie> secondSequenceCollection;
+
+    for(int i = 0; i < firstSequence; i++){
+       firstSequenceCollection.push_back(movies.at(startIndex + i));
+    }
+
+    for(int j = 0; j < secondSequence; j++){
+        secondSequenceCollection.push_back(movies.at(middleIndex + 1 + j));
+    }
+
+    // Merge firstSequenceCollection and secondSequenceCollection back into movies
+    int i = 0;
+    int j = 0;
+    int k = startIndex;
+
+    while(i < firstSequence && j < secondSequence){
+        if(firstSequenceCollection.at(i) >= secondSequenceCollection.at(j)){
+            movies.at(k) = firstSequenceCollection.at(i);
+            i++;
+        }
+        else{
+            movies.at(k) = secondSequenceCollection.at(j);
+            j++;
+        }
+        k++;
+    }
+
+    // Append remaining elements if there is any
+    while(i < firstSequence){
+        movies.at(k) = firstSequenceCollection.at(i);
+        i++;
+        k++;
+    }
+
+    while(j < secondSequence){
+        movies.at(k) = secondSequenceCollection.at(j);
+        j++;
+        k++;
+    }
+}
+
+// completes the merge sort into the movies vector
+void mergeSort(vector<Movie>& movies, int startIndex, int endIndex){
+    int middleIndex;
+
+    if(startIndex < endIndex){
+        middleIndex = (startIndex + endIndex) / 2;
+        mergeSort(movies, startIndex, middleIndex);
+        mergeSort(movies, middleIndex + 1, endIndex);
+        merge(movies, startIndex, middleIndex, endIndex);
+    }
+}
 
 //sort 2 functions:
 //finds the minimum value of the sub-vector
